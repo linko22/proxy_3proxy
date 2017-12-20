@@ -1,0 +1,12 @@
+---
+- include_tasks: "centos7.yml"
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+  tags: [ "proxy_3proxy", "proxy_3proxy_install" ]
+
+- name: Generate 3proxy.cfg
+  template:
+    src: 3proxy.cfg.j2
+    dest: /etc/3proxy.cfg
+    mode: 0644
+  notify: restart proxy_3proxy
+  tags: [ "proxy_3proxy", "proxy_3proxy_configure" ]

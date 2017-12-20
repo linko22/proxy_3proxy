@@ -1,0 +1,17 @@
+---
+- name: firewalld enable {{ item }}
+  firewalld:
+    port: "{{ item }}/tcp"
+    permanent: true
+    state: enabled
+  with_items:
+    - 3128
+  tags: [ "proxy_3proxy", "proxy_3proxy_configure" ]
+
+- name: firewalld enable socks
+  firewalld:
+    port: "{{ (( proxy_3proxy_socks_port == None ) | ternary ( '1080', proxy_3proxy_socks_port )) }}/tcp"
+    permanent: true
+    state: enabled
+  when: proxy_3proxy_socks_port is defined
+  tags: [ "proxy_3proxy", "proxy_3proxy_configure" ]

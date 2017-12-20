@@ -1,0 +1,22 @@
+---
+- name: Copy 3proxy package
+  copy:
+    src: 3proxy-0.8.7-1.el7.centos.x86_64.rpm
+    dest: /tmp/3proxy-0.8.7-1.el7.centos.x86_64.rpm
+  tags: [ "proxy_3proxy", "proxy_3proxy_install" ]
+
+- name: Install local 3proxy package
+  yum:
+    name: /tmp/3proxy-0.8.7-1.el7.centos.x86_64.rpm
+    state: present
+  tags: [ "proxy_3proxy", "proxy_3proxy_install" ]
+
+- name: Ensure 3proxy is started for CentOS 7
+  systemd:
+     name=3proxy
+     state=started
+     enabled=yes
+     daemon_reload=yes
+  tags: [ "proxy_3proxy", "proxy_3proxy_start" ]
+
+- include_tasks: "firewalld.yml"

@@ -1,0 +1,5 @@
+---
+- name: restart proxy_3proxy
+  systemd:
+    name=3proxy
+    state=restarted
